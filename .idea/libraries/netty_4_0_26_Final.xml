@@ -1,0 +1,18 @@
+<component name="libraryTable">
+  <library name="netty-4.0.26.Final">
+    <ANNOTATIONS>
+      <root url="jar://C:/Java/netty-4.0.26.Final.zip!/" />
+    </ANNOTATIONS>
+    <CLASSES>
+      <root url="jar://C:/Java/netty-4.0.26.Final.zip!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://C:/Java/netty-4.0.26.Final.zip!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://C:/Java/netty-4.0.26.Final.zip!/" />
+    </SOURCES>
+    <jarDirectory url="jar://C:/Java/netty-4.0.26.Final.zip!/" recursive="false" />
+    <jarDirectory url="jar://C:/Java/netty-4.0.26.Final.zip!/" recursive="false" type="SOURCES" />
+  </library>
+</component>
