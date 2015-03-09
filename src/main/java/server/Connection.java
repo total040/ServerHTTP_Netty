@@ -1,50 +1,90 @@
 package server;
 
-
-import java.util.Date;
-
 /**
  * Created by kumeskyi on 06.03.2015.
  */
+
+import java.io.Serializable;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
+import java.util.HashSet;
+import java.util.Set;
+
 public class Connection {
 
-    private String src_ip;
-    private String uri;
-    private Date date;
-    private long sent_bytes;
-    private long received_bytes;
-    private double speed;
+    private LocalDateTime established;
+    private LocalDateTime closed;
+    private String ip;
+    private Set<String> uris;
 
-    public Connection (String ip, String uri, long sent_bytes, int received_bytes, double speed) {
-        this.src_ip = ip;
-        this.uri = uri;
-        this.date = new Date();
-        this.sent_bytes = sent_bytes;
-        this.received_bytes = received_bytes;
-        this.speed = speed;
+    private long bytesSent;
+    private long bytesReceived;
+
+    public Connection() {
+        uris = new HashSet<>();
     }
 
-    public String getSrc_ip() {
-        return src_ip;
+
+    public synchronized String getUrisAsString() {
+        StringBuilder sb = new StringBuilder();
+        uris.forEach((uri) -> sb.append(uri).append(", "));
+        if (sb.length() > 1) {
+            sb.delete(sb.length() - 2, sb.length());
+        }
+        return sb.toString();
     }
 
-    public String getUri() {
-        return uri;
+    public synchronized double getSpeed() {
+        double connectionDuration = ChronoUnit.MILLIS.between(established, closed);
+        connectionDuration /= 1000;
+        return Math.round((((double)bytesSent + (double)bytesReceived)*100) / 100*connectionDuration);
     }
 
-    public Date getDate() {
-        return date;
+    public synchronized long getBytesReceived() {
+        return bytesReceived;
     }
 
-    public long getSent_bytes() {
-        return sent_bytes;
+    public synchronized void setBytesReceived(long bytesReceived) {
+        this.bytesReceived = bytesReceived;
     }
 
-    public long getReceived_bytes() {
-        return received_bytes;
+    public synchronized LocalDateTime getEstablished() {
+        return established;
     }
 
-    public double getSpeed() {
-        return speed;
+    public synchronized void setEstablished(LocalDateTime established) {
+        this.established = established;
     }
+
+    public synchronized LocalDateTime getClosed() {
+        return closed;
+    }
+
+    public synchronized void setClosed(LocalDateTime closed) {
+        this.closed = closed;
+    }
+
+    public synchronized String getIp() {
+        return ip;
+    }
+
+    public synchronized void setIp(String ip) {
+        this.ip = ip;
+    }
+
+    public synchronized void addUri(String uri) {
+        if (uri != null) {
+            uris.add(uri);
+        }
+    }
+
+    public synchronized long getBytesSent() {
+        return bytesSent;
+    }
+
+    public synchronized void setBytesSent(long bytesSent) {
+        this.bytesSent = bytesSent;
+    }
+
+
 }

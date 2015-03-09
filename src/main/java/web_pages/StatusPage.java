@@ -15,72 +15,100 @@ public class StatusPage {
 
     public ByteBuf getContent(StatsMaker stat) {
 
+        StringBuilder contents = new StringBuilder();
 
-        String content = "" +
+        contents.append(
                 "<html>" +
                 "<title>Status page</title>" +
-                "<body bgcolor = eeff90>" +
-                "<h1>WEB-server status:</h1>" +
-
+                "<h3>WEB-server statistics</h3>" +
                 // First table.
+                "<h4>General statistics</h4>" +
                 "<table border = 1>" +
                 "<tr>" +
                 "<th>Total requests</th>" +
                 "<th>Unique connections</th>" +
                 "<th>Active connections</th>" +
-                "<th>Last IP</th>" +
-                "<th>Last connection</th>" +
                 "</tr>" +
                 "<tr>" +
-                "<td align=\"center\">" + stat.getCountQuery() + "</td>" +
-                "<td align=\"center\">" + stat.getCountUniqueConnections() + "</td>" +
-                "<td align=\"center\">" + stat.getCountActiveConnections() + "</td>" +
-                "<td align=\"center\">" + stat.getLastConnectionIP() + "</td>" +
-                "<td align=\"center\">" + stat.getTimeOfLastConnection() + "</td>" +
+                "<td align=\"center\">" + stat.getTotalNumberOfQueries() + "</td>" +
+                "<td align=\"center\">" + stat.getNumberOfUniqueQueries() + "</td>" +
+                "<td align=\"center\">" + stat.getNumberOfActiveConnections() + "</td>" +
                 "</tr>" +
                 "</table>" +
 
-                // Second table.
+                // Second table
+                "<h4>Request statistics</h4>" +
                 "<table border = 1>" +
                 "<tr>" +
-                "<th>Redirected URL</th>" +
-                "<th>Count</th>";
-        for (Map.Entry<String, Integer> coll : stat.getUrlCollection().entrySet()) {
-            content += "<tr>" +
-                    "<td align=\"center\">" + coll.getKey() + "</td>" +
-                    "<td align=\"center\">" + coll.getValue() + "</td>" +
-                    "</tr>";
-        }
-        content += "" +
-                "</table>" +
+                "<th>Request from (IP)</th>" +
+                "<th>Number of requests from IP</th>" +
+                "<th>Time of last request</th>");
 
-                // Third table.
-                "<table border = 1>" +
-                "<tr>" +
-                "<th>IP</th>" +
-                "<th>URI</th>" +
-                "<th>Time stamp</th>" +
-                "<th>Send bytes</th>" +
-                "<th>Received bytes</th>" +
-                "<th>Speed(byte/sec)</th>" +
-                "</tr>";
-        for (Connection connInfo : stat.getConnections()) {
-            content += "" +
+        for (Map.Entry<String, Integer> ipRequest: stat.getIpRequestsByCount().entrySet()) {
+            contents.append(
                     "<tr>" +
-                    "<td>" + connInfo.getSrc_ip() + "</td>" +
-                    "<td>" + connInfo.getUri() + "</td>" +
-                    "<td>" + connInfo.getDate() + "</td>" +
-                    "<td align=\"center\">" + connInfo.getSent_bytes() + "</td>" +
-                    "<td align=\"center\">" + connInfo.getReceived_bytes() + "</td>" +
-                    "<td align=\"center\">" + connInfo.getSpeed() + "</td>" +
-                    "</tr>";
+                    "<td align=\"center\">" + ipRequest.getKey() + "</td>" +
+                    "<td align=\"center\">" + ipRequest.getValue() + "</td>" +
+                    "<td align=\"center\">" + stat.getFormattedDateTime(stat.getIpRequestsByDate().get(ipRequest.getKey()))
+                            + "</td>" +
+                    "</tr>");
         }
-        content += "" +
-                "</table>" +
-                "</body>" +
-                "</html>";
+        contents.append(
+                    "</table>" +
 
+                    // Third table.
+                    "<h4>Redirect statistics</h4>" +
+                    "<table border = 1>" +
+                    "<tr>" +
+                    "<th>Redirected URL</th>" +
+                    "<th>Count</th>");
+            for (Map.Entry<String, Integer> coll : stat.getRedirects().entrySet()) {
+                contents.append(
+                        "<tr>" +
+                        "<td align=\"center\">" + coll.getKey() + "</td>" +
+                        "<td align=\"center\">" + coll.getValue() + "</td>" +
+                        "</tr>");
+            }
+            contents.append(
+                    "</table>" +
 
-        return Unpooled.copiedBuffer(content, CharsetUtil.UTF_8);
-    }
+                    // Fourth table.
+                    "<h4>Connection statistics (last 16)</h4>" +
+                    "<table border = 1>" +
+                    "<tr>" +
+                    "<th>src_ip</th>" +
+                    "<th>URI</th>" +
+                    "<th>Time stamp</th>" +
+                    "<th>sent_bytes</th>" +
+                    "<th>received_bytes</th>" +
+                    "<th>Speed(byte/sec)</th>" +
+                    "</tr>");
+            for (Connection conn : stat.getConnections()) {
+                contents.append(
+                        "<tr>" +
+                        "<td>" + conn.getIp() + "</td>" +
+                        "<td>" + conn.getUrisAsString() + "</td>");
+                if (conn.getClosed() != null) {
+                    contents.append(
+                            "<td>" + stat.getFormattedDateTime(conn.getEstablished()) + "</td>" +
+                                    "<td align=\"center\">" + conn.getBytesSent() + "</td>" +
+                                    "<td align=\"center\">" + conn.getBytesReceived() + "</td>" +
+                                    "<td align=\"center\">" + conn.getSpeed() + "</td>" +
+                                    "</tr>");
+                } else {
+                    contents.append(
+                            "<td>" + "---" + "</td>" +
+                            "<td align=\"center\">" + "---" + "</td>" +
+                            "<td align=\"center\">" + "---" + "</td>" +
+                            "<td align=\"center\">" + "---" + "</td>" +
+                            "</tr>");
+                }
+            }
+            contents.append(
+                    "</table>" +
+                    "</body>" +
+                    "</html>");
+
+            return Unpooled.copiedBuffer(contents, CharsetUtil.UTF_8);
+        }
 }

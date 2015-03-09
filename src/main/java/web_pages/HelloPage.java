@@ -17,8 +17,6 @@ public class HelloPage {
                         "</head>" +
                         "<body bgcolor = green>" +
                         "<h1 align = 'center'>Hello World</h1>" +
-                        "<h3 align = 'center'>Congrats!!! You've connected to \"Netty WEB server\"</h3>" +
-                        "<h6 align = 'right'>(c)Created by pager</h6>" +
                         "</body>" +
                         "</html>", CharsetUtil.UTF_8);
     }
