@@ -6,8 +6,7 @@ Short Description
 
 Here presented a simple HTTP server based on Netty framework that handles HTTP requests.
 The server gets started on a given port number, the pipelines and then channels (connections) are created.
-With the request from the client received, the server handler takes this request and sends it to appropriate
-processing.
+With the request from the client received, the server handler takes this request and sends it to appropriate processing.
 All the stats being stored in Singleton object until the server is closed.
 
 In our case, we have several possible responses, such as:
@@ -16,7 +15,7 @@ In our case, we have several possible responses, such as:
 3. Printing statistics
 4. Not Found for all other
 
-Here are made classes for each response type (except for redirection).
+Some classes are made for each response type (except for redirection).
 
 But the code can be improved by creating only one class that builds web pages by itself (according to a type of request).
 Also the code can be improved by implementing some other handlers from Netty framework.
