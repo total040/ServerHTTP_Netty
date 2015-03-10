@@ -1,12 +1,13 @@
 package web_pages;
 
+/**
+ * Created by kumeskyi on 06.03.2015.
+ */
+
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import io.netty.util.CharsetUtil;
 
-/**
- * Created by kumeskyi on 06.03.2015.
- */
 public class NotFoundPage {
 
     public ByteBuf getContent(String page) {

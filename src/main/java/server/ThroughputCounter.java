@@ -1,12 +1,16 @@
 package server;
 
+/**
+ * Created by kumeskyi on 08.03.2015.
+ */
+
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.traffic.ChannelTrafficShapingHandler;
 
 import java.time.LocalDateTime;
 
-/**
- * Created by kumeskyi on 08.03.2015.
+/*
+ Helps to account I/O traffic within one connection
  */
 
 public class ThroughputCounter extends ChannelTrafficShapingHandler {

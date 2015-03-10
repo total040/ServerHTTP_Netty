@@ -1,5 +1,9 @@
 package server;
 
+/**
+ * Created by kumeskyi on 06.03.2015.
+ */
+
 import io.netty.channel.Channel;
 import io.netty.channel.group.DefaultChannelGroup;
 import io.netty.util.concurrent.GlobalEventExecutor;
@@ -8,8 +12,9 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
-/**
- * Created by kumeskyi on 06.03.2015.
+/*
+  Provides tools for statistics data management
+  Describes Singleton object to store statistics in it
  */
 public class StatsMaker {
 
@@ -30,6 +35,7 @@ public class StatsMaker {
         return statsMaker;
     }
 
+    // Setting references to active channels
     private DefaultChannelGroup activeConnections  = new DefaultChannelGroup(GlobalEventExecutor.INSTANCE);
 
     public synchronized void addActive(Channel c) {
@@ -90,7 +96,7 @@ public class StatsMaker {
         return connections;
     }
 
-    public String getFormattedDateTime(LocalDateTime ldt) {
+    public synchronized String getFormattedDateTime(LocalDateTime ldt) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("YY-MM-dd hh:mm:ss");
         return ldt.format(formatter);
     }

@@ -1,5 +1,9 @@
 package server;
 
+/**
+ * Created by kumeskyi on 05.03.2015.
+ */
+
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.EventLoopGroup;
@@ -8,8 +12,9 @@ import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.handler.logging.LogLevel;
 import io.netty.handler.logging.LoggingHandler;
 
-/**
- * Created by kumeskyi on 05.03.2015.
+/*
+  Gets Http server started with the means of two EventLoopGroups - leading one-thread group (bossGroup)
+  and workerGroup
  */
 
 public class Server {

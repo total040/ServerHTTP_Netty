@@ -1,5 +1,8 @@
 package server;
 
+/**
+ * Created by kumeskyi on 05.03.2015.
+ */
 
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelPipeline;
@@ -11,10 +14,11 @@ import io.netty.handler.logging.LoggingHandler;
 
 import java.time.LocalDateTime;
 
-
-/**
- * Created by kumeskyi on 05.03.2015.
+/*
+  Class that initializes Http Server establishing connection to the client
+  and creating channel pipeline
  */
+
 public class ServerInitializer extends ChannelInitializer <SocketChannel>{
 
     @Override

@@ -4,11 +4,16 @@ package server;
  * Created by kumeskyi on 06.03.2015.
  */
 
-import java.io.Serializable;
+
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.HashSet;
 import java.util.Set;
+
+/*
+ A Class to describe connection properties and methods.
+ Being created in ServerInitializer and being used in ServerHandler.
+ */
 
 public class Connection {
 
@@ -24,7 +29,7 @@ public class Connection {
         uris = new HashSet<>();
     }
 
-
+    // viewing URIs as a String to write them in a statistics table
     public synchronized String getUrisAsString() {
         StringBuilder sb = new StringBuilder();
         uris.forEach((uri) -> sb.append(uri).append(", "));
@@ -34,6 +39,7 @@ public class Connection {
         return sb.toString();
     }
 
+    // calculating connection speed, setting two digits after period
     public synchronized double getSpeed() {
         double connectionDuration = ChronoUnit.MILLIS.between(established, closed);
         connectionDuration /= 1000;

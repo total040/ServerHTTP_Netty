@@ -1,5 +1,9 @@
 package server;
 
+/**
+ * Created by kumeskyi on 05.03.2015.
+ */
+
 import io.netty.handler.codec.http.DefaultFullHttpResponse;
 import io.netty.handler.codec.http.FullHttpResponse;
 import web_pages.HelloPage;
@@ -11,16 +15,18 @@ import static io.netty.handler.codec.http.HttpResponseStatus.OK;
 import static io.netty.handler.codec.http.HttpResponseStatus.NOT_FOUND;
 import static io.netty.handler.codec.http.HttpVersion.HTTP_1_1;
 
-/**
- * Created by kumeskyi on 05.03.2015.
+/*
+  Receives from ServerHandler a response construction task, analyses the request URI
+  and asks for corresponding web page
  */
 public class ResponseMaker {
 
-        private static final int SLEEP_TIME = 3;
+       // number of seconds to wait before hello page loads
+        private static final int SLEEP_TIME = 10;
 
         private final StatsMaker stats = StatsMaker.getStatsMaker();
 
-        public FullHttpResponse buildHttpResponse(String requestURI) throws InterruptedException {
+        public synchronized FullHttpResponse buildHttpResponse(String requestURI) throws InterruptedException {
 
             if (requestURI.equals("/hello")) {
 

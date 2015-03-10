@@ -1,25 +1,21 @@
 package server;
 
-import io.netty.buffer.Unpooled;
-import io.netty.channel.ChannelFutureListener;
-import io.netty.channel.ChannelHandlerContext;
-import io.netty.channel.ChannelInboundHandlerAdapter;
-import io.netty.channel.SimpleChannelInboundHandler;
-import io.netty.handler.codec.http.*;
-import io.netty.handler.traffic.GlobalChannelTrafficShapingHandler;
-import io.netty.util.CharsetUtil;
-
-import java.math.BigDecimal;
-import java.math.RoundingMode;
-import java.time.LocalDateTime;
-import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.TimeUnit;
-
 /**
  * Created by kumeskyi on 05.03.2015.
  */
-public class ServerHandler extends SimpleChannelInboundHandler<Object> {
+
+import io.netty.channel.ChannelFutureListener;
+import io.netty.channel.ChannelHandlerContext;
+import io.netty.channel.SimpleChannelInboundHandler;
+import io.netty.handler.codec.http.*;
+
+import java.time.LocalDateTime;
+
+
+/*
+  Handles Http requests from client and delegates response construction to ResponseMaker class
+ */
+public class ServerHandler extends SimpleChannelInboundHandler {
 
     private final StatsMaker stats = StatsMaker.getStatsMaker();
     private final Connection connection;

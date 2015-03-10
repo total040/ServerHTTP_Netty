@@ -1,5 +1,9 @@
 package web_pages;
 
+/**
+ * Created by kumeskyi on 06.03.2015.
+ */
+
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import io.netty.util.CharsetUtil;
@@ -8,12 +12,9 @@ import server.StatsMaker;
 
 import java.util.Map;
 
-/**
- * Created by kumeskyi on 06.03.2015.
- */
 public class StatusPage {
 
-    public ByteBuf getContent(StatsMaker stat) {
+    public synchronized ByteBuf getContent(StatsMaker stat) {
 
         StringBuilder contents = new StringBuilder();
 
